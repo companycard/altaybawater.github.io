@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Al Tayba Drinking Water</title>
+
+  <!-- Fonts + Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- QR lib (used by bottom QR button) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+
+  <style>
+    :root{
+      /* Brand (extracted from logo) */
+      --brand-1:#03B5C3; /* primary teal */
+      --brand-2:#0B9EC8; /* secondary cyan */
+      --brand-3:#128ECA; /* deeper cyan-blue */
+
+      /* UI */
+      --bg:#F3F6F8;
+      --ink:#0B1220;
+      --muted:#6B7280;
+      --white:#FFFFFF;
+
+      /* Premium water vibe */
+      --card:#061a2b; /* deep navy */
+      --card-2:#08233a;
+      --accent: var(--brand-1);
+
+      --r-xl:26px;
+      --r-lg:22px;
+      --shadow-1: 0 10px 24px rgba(0,0,0,.10);
+      --shadow-2: 0 14px 38px rgba(0,0,0,.14);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:"Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(900px 600px at 20% 0%, rgba(3,181,195,.16), transparent 60%),
+        radial-gradient(900px 600px at 80% 22%, rgba(11,158,200,.12), transparent 55%),
+        var(--bg);
+      display:flex;
+      justify-content:center;
+      padding: 28px 16px 126px; /* space for bottom bar */
+      color: var(--ink);
+    }
+
+    .page{
+      width:100%;
+      max-width:430px;
+    }
+
+    /* Header */
+    .brand{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+      margin: 10px 0 22px;
+      user-select:none;
+    }
+    .brand img{
+      width: 180px;
+      height: auto;
+      display:block;
+      filter: drop-shadow(0 10px 18px rgba(0,0,0,.12));
+    }
+
+    /* Main "Name" Card */
+    .profile{
+      background: linear-gradient(180deg, var(--card), var(--card-2));
+      border-radius: var(--r-xl);
+      padding: 34px 28px;
+      box-shadow: var(--shadow-2);
+      margin: 0 6px 18px;
+      position:relative;
+      overflow:hidden;
+    }
+    .profile::before{
+      content:"";
+      position:absolute;
+      inset:-120px -120px auto auto;
+      width:260px;height:260px;
+      background: radial-gradient(circle at 30% 30%, rgba(3,181,195,.55), rgba(3,181,195,0) 60%);
+      transform: rotate(12deg);
+      opacity:.55;
+    }
+    .profile h1{
+      margin:0;
+      color: var(--white);
+      font-size: 34px;
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: .2px;
+      position:relative;
+    }
+
+    /* Action strip */
+    .actions{
+      background: linear-gradient(90deg, var(--brand-2), var(--brand-1));
+      border-radius: var(--r-xl);
+      padding: 16px 18px;
+      box-shadow: 0 12px 26px rgba(3,181,195,.22);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap: 18px;
+      margin: 0 6px 18px;
+    }
+    .action-btn{
+      width:56px;height:56px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,.92);
+      display:grid;
+      place-items:center;
+      color: var(--white);
+      text-decoration:none;
+      font-size: 22px;
+      transition: transform .15s ease, background .15s ease;
+    }
+    .action-btn:hover{
+      transform: translateY(-2px);
+      background: rgba(255,255,255,.14);
+    }
+
+    /* Cards */
+    .card{
+      background: var(--white);
+      border-radius: var(--r-xl);
+      box-shadow: var(--shadow-1);
+      margin: 0 6px 18px;
+      padding: 22px 22px;
+    }
+
+    .about .heading{
+      text-align:center;
+      color: var(--accent);
+      font-size: 34px;
+      font-weight: 800;
+      margin: 6px 0 6px;
+    }
+    .about .desc{
+      text-align:center;
+      color: var(--muted);
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.7;
+      font-weight: 500;
+    }
+
+    /* Social row */
+    .social{
+      display:flex;
+      gap:12px;
+      justify-content:center;
+      margin-top: 14px;
+      flex-wrap:wrap;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(3,181,195,.10);
+      color: #064b52;
+      text-decoration:none;
+      font-weight: 700;
+      font-size: 14px;
+      border: 1px solid rgba(3,181,195,.20);
+    }
+
+    /* Contact */
+    .contact-top{
+      display:flex;
+      align-items:center;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+    .contact-icon{
+      width:54px;height:54px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, #0c0c0c, #1b1b1b);
+      display:grid;
+      place-items:center;
+      color: var(--white);
+      font-size: 22px;
+      flex: 0 0 auto;
+      box-shadow: 0 10px 20px rgba(0,0,0,.18);
+    }
+    .contact-title{
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--accent);
+      margin: 0;
+    }
+    .divider{
+      height: 1px;
+      background: rgba(6,26,43,.10);
+      margin: 12px 0 18px;
+    }
+    .field{ margin-bottom: 18px; }
+    .label{
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+    .value{
+      color: #374151;
+      font-weight: 500;
+      font-size: 15px;
+      line-height: 1.45;
+    }
+    .direction{
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      background: linear-gradient(90deg, var(--brand-2), var(--brand-1));
+      color: var(--white);
+      padding: 12px 22px;
+      border-radius: 999px;
+      text-decoration:none;
+      font-weight: 800;
+      box-shadow: 0 12px 22px rgba(3,181,195,.18);
+    }
+
+    /* Bottom floating bar */
+    .bottom-bar{
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 18px;
+      width: calc(100% - 32px);
+      max-width: 430px;
+      background: rgba(255,255,255,.92);
+      border-radius: 999px;
+      box-shadow: 0 16px 36px rgba(0,0,0,.16);
+      padding: 10px 12px;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      z-index: 999;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .bar-left{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+    }
+    .fab{
+      width:58px;height:58px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, var(--brand-2), var(--brand-1));
+      color: var(--white);
+      display:grid;
+      place-items:center;
+      font-size: 22px;
+      border: none;
+      cursor:pointer;
+      box-shadow: 0 12px 22px rgba(3,181,195,.20);
+    }
+    .add-contact{
+      height: 58px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--brand-2), var(--brand-1));
+      color: var(--white);
+      display:flex;
+      align-items:center;
+      gap: 14px;
+      padding: 0 18px 0 22px;
+      border: none;
+      cursor:pointer;
+      font-weight: 900;
+      font-size: 16px;
+      white-space: nowrap;
+      box-shadow: 0 12px 22px rgba(3,181,195,.20);
+    }
+    .add-contact .mini{
+      width:28px;height:28px;
+      border-radius: 50%;
+      background: var(--white);
+      color: var(--brand-2);
+      display:grid;
+      place-items:center;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    /* Modal */
+    .modal{
+      position:fixed;
+      inset:0;
+      background: rgba(0,0,0,.55);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+      z-index: 1000;
+    }
+    .modal.open{display:flex}
+    .modal-card{
+      width: min(380px, 100%);
+      background: var(--white);
+      border-radius: 20px;
+      box-shadow: 0 22px 60px rgba(0,0,0,.25);
+      padding: 18px 18px 16px;
+      text-align:center;
+      position:relative;
+    }
+    .modal-card h3{
+      margin: 6px 0 10px;
+      font-size: 18px;
+      font-weight: 800;
+      color: #0B1220;
+    }
+    .close{
+      position:absolute;
+      right:10px; top:10px;
+      width:36px;height:36px;
+      border-radius:50%;
+      border:1px solid rgba(0,0,0,.08);
+      background:#fff;
+      cursor:pointer;
+      display:grid;
+      place-items:center;
+    }
+    #qr{
+      display:flex;
+      justify-content:center;
+      padding: 10px 0 6px;
+    }
+    .small{
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      word-break: break-all;
+    }
+
+    @media (max-width: 380px){
+      .profile h1{font-size:30px}
+      .brand img{width:160px}
+      .add-contact{font-size:15px}
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <!-- Header -->
+    <header class="brand" aria-label="Brand">
+      <!-- IMPORTANT: Keep logo file in same folder as this HTML -->
+      <img src="al-tayba-logo.png" alt="Al Tayba logo" />
+    </header>
+
+    <!-- Profile card (company name only, as requested) -->
+    <section class="profile" aria-label="Company">
+      <h1>AL TAYBA FOR MINERAL WATER TRADING L.L.C</h1>
+    </section>
+
+    <!-- Quick actions (no SMS) -->
+    <section class="actions" aria-label="Quick actions">
+      <a class="action-btn" href="tel:+97167437599" aria-label="Call landline"><i class="fa-solid fa-phone"></i></a>
+      <a class="action-btn" href="mailto:altaybawater2020@gmail.com" aria-label="Email"><i class="fa-regular fa-envelope"></i></a>
+      <a class="action-btn" href="https://wa.me/971501255327" target="_blank" rel="noopener" aria-label="WhatsApp Order"><i class="fa-brands fa-whatsapp"></i></a>
+    </section>
+
+    <!-- About -->
+    <section class="card about" aria-label="About">
+      <div class="heading">About</div>
+      <p class="desc">
+        Premium drinking water supply with reliable delivery for homes and offices across the UAE.
+        Tap WhatsApp to place your order instantly.
+      </p>
+
+      <div class="social" aria-label="Social links">
+        <a class="pill" href="https://altaybawater.com/" target="_blank" rel="noopener"><i class="fa-solid fa-globe"></i> Website</a>
+        <a class="pill" href="https://www.instagram.com/altaybadrinkingwater/" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i> Instagram</a>
+        <a class="pill" href="https://www.facebook.com/p/Al-Tayba-Drinking-Water-61553899912440/" target="_blank" rel="noopener"><i class="fa-brands fa-facebook-f"></i> Facebook</a>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="card" aria-label="Contact">
+      <div class="contact-top">
+        <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
+        <h2 class="contact-title">Contact Us</h2>
+      </div>
+      <div class="divider"></div>
+
+      <div class="field">
+        <div class="label">Call Us</div>
+        <div class="value">06 743 7599 / 050 125 5327</div>
+      </div>
+
+      <div class="field">
+        <div class="label">WhatsApp Order</div>
+        <div class="value">050 125 5327</div>
+      </div>
+
+      <div class="field">
+        <div class="label">Email</div>
+        <div class="value">altaybawater2020@gmail.com</div>
+      </div>
+
+      <div class="field">
+        <div class="label">Address</div>
+        <div class="value">
+          9FCG+MWG - Ajman Industrial 2 - Ajman<br>
+          Ajman, United Arab Emirates
+        </div>
+      </div>
+
+      <a class="direction" href="https://maps.app.goo.gl/PJEAeHk6MCXnVtXUA" target="_blank" rel="noopener" aria-label="Direction">
+        <i class="fa-solid fa-location-arrow"></i> Direction
+      </a>
+    </section>
+  </main>
+
+  <!-- Bottom floating bar -->
+  <nav class="bottom-bar" aria-label="Bottom actions">
+    <div class="bar-left">
+      <button class="fab" id="btnQr" type="button" aria-label="QR"><i class="fa-solid fa-qrcode"></i></button>
+      <button class="fab" id="btnShare" type="button" aria-label="Share"><i class="fa-solid fa-arrow-up-from-bracket"></i></button>
+    </div>
+
+    <button class="add-contact" id="btnVcard" type="button" aria-label="Add to Contact">
+      Add to Contact
+      <span class="mini"><i class="fa-solid fa-plus"></i></span>
+    </button>
+  </nav>
+
+  <!-- QR Modal -->
+  <div class="modal" id="modal">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-label="QR code">
+      <button class="close" id="btnClose" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+      <h3>Scan to open this page</h3>
+      <div id="qr"></div>
+      <div class="small" id="pageUrl"></div>
+    </div>
+  </div>
+
+  <script>
+    const PAGE_URL = window.location.href;
+
+    // --- Share ---
+    async function sharePage(){
+      const payload = {
+        title: "Al Tayba Drinking Water",
+        text: "Al Tayba digital business card",
+        url: PAGE_URL
+      };
+      try{
+        if(navigator.share){
+          await navigator.share(payload);
+        } else {
+          await navigator.clipboard.writeText(PAGE_URL);
+          alert("Link copied!");
+        }
+      } catch(e){
+        // user canceled share; do nothing
+      }
+    }
+
+    // --- vCard ---
+    function downloadVCard(){
+      const vcf =
+`BEGIN:VCARD
+VERSION:3.0
+FN:AL TAYBA FOR MINERAL WATER TRADING L.L.C
+ORG:AL TAYBA FOR MINERAL WATER TRADING L.L.C
+TEL;TYPE=WORK,VOICE:+97167437599
+TEL;TYPE=CELL,VOICE:+971501255327
+TEL;TYPE=CELL,VOICE;TYPE=WHATSAPP:+971501255327
+EMAIL;TYPE=WORK:altaybawater2020@gmail.com
+ADR;TYPE=WORK:;;9FCG+MWG - Ajman Industrial 2 - Ajman;Ajman;;;United Arab Emirates
+URL:https://altaybawater.com/
+END:VCARD`;
+
+      const blob = new Blob([vcf], {type: "text/vcard;charset=utf-8"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "AlTayba.vcf";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    // --- QR Modal ---
+    let qrMade = false;
+    function openQr(){
+      const modal = document.getElementById("modal");
+      modal.classList.add("open");
+      document.getElementById("pageUrl").textContent = PAGE_URL;
+
+      if(!qrMade && window.QRCode){
+        new QRCode(document.getElementById("qr"), {
+          text: PAGE_URL,
+          width: 220,
+          height: 220,
+          correctLevel: QRCode.CorrectLevel.M
+        });
+        qrMade = true;
+      }
+    }
+    function closeQr(){
+      document.getElementById("modal").classList.remove("open");
+    }
+
+    document.getElementById("btnShare").addEventListener("click", sharePage);
+    document.getElementById("btnVcard").addEventListener("click", downloadVCard);
+    document.getElementById("btnQr").addEventListener("click", openQr);
+    document.getElementById("btnClose").addEventListener("click", closeQr);
+    document.getElementById("modal").addEventListener("click", (e) => {
+      if(e.target.id === "modal") closeQr();
+    });
+  </script>
+</body>
+</html>
